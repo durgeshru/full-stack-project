@@ -21,6 +21,15 @@ router.post('/register', [
       .withMessage("Enter valid mobile number")], usercontroler.register)
 
 
+
+      router.post('/login',[
+         body("email").isEmail().withMessage("Email must be valid"),
+
+         body("password").isLength({ min: 6 }).withMessage("Password must be at least 6 characters")
+    .withMessage("Email must be valid"),
+      ] , usercontroler.login)
+
+
 module.exports = router
 
 
