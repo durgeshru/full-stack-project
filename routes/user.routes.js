@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const { body } = require('express-validator')
 const usercontroler = require('../controler/user.controler')
+const { authuser } = require('../Middleware/Auth.user')
+
 
 router.post('/register', [
    body("fullname.firstname")
@@ -29,6 +31,10 @@ router.post('/register', [
     .withMessage("Email must be valid"),
       ] , usercontroler.login)
 
+
+      router.post('/profile', authuser, [
+
+      ],usercontroler.profile)
 
 module.exports = router
 
