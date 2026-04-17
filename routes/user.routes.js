@@ -36,6 +36,8 @@ router.post('/register', [
 
       ],usercontroler.profile)
 
+      router.post('/logout', authuser, usercontroler.logout)
+
 module.exports = router
 
 

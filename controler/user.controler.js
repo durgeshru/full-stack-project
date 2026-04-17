@@ -1,6 +1,7 @@
 const usermodel = require('../modals/user.modal');
 const userService = require('../services/user.services');
 const { validationResult } = require('express-validator');
+const BlacklistToken = require('../modals/blacklist.token');
 
 module.exports.register = async (req, res, next) => {
    try {
@@ -71,3 +72,21 @@ module.exports.login = async (req, res, next) => {
 module.exports.profile= async(req,res,next)=>{
    res.status(200).json({ user: req.user , message: 'Profile fetched successfully' });
 }
+
+module.exports.logout = async (req, res, next) => {
+   try {
+      const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+      
+      if (!token) {
+         return res.status(400).json({ message: "No token provided" });
+      }
+      
+      // Add token to blacklist
+      await BlacklistToken.create({ token });
+      
+      res.status(200).json({ message: "Logout successful" });
+   } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error.message });
+   }
+};
